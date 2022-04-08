@@ -10,6 +10,7 @@ export default interface IUser extends Document {
     mobile: String;
     total_orders: Number;
     wallet: number;
+    addresses : [object];
     created_at: Date;
 
 }
