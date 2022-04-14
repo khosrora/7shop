@@ -1,6 +1,7 @@
 import * as  express from 'express';
 import { Application } from 'express';
 import RouteService from './router/routeService';
+import boot from './boot';
 
 class App {
     public app: Application;
@@ -13,6 +14,7 @@ class App {
     }
 
     public start(): void {
+        boot(this.app)
         this.router.run();
         this.app.listen(this.port, () => {
             console.log('app is running ...');
