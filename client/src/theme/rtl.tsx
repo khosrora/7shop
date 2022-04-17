@@ -1,5 +1,4 @@
 import React from 'react'
-
 import { createMuiTheme, StylesProvider, jssPreset, ThemeProvider } from '@material-ui/core/styles'
 import rtl from 'jss-rtl'
 import { create } from 'jss'
@@ -13,7 +12,7 @@ const theme = createMuiTheme({
     }
   },
   typography: {
-    fontFamily: 'iranyekan'
+    fontFamily: 'Vazir'
   },
   direction: 'rtl',
   overrides: {

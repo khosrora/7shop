@@ -10,7 +10,9 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
+  Snackbar,
 } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import AttributeGroup from "./attribute/AttributeGroup";
 import { AddBox, Save } from "@material-ui/icons";
@@ -30,7 +32,10 @@ export default function CategoriesContent() {
   const styles = useStyles();
   const { state, dispatch } = useCategoriesState();
   const [title, setTitle] = React.useState<string>("");
+  const [slug, setSlug] = React.useState<string>("");
   const [open, setOpen] = React.useState<boolean>(false);
+  const [showNotify, setShowNotify] = React.useState<boolean>(false);
+
   const handleClose = (e: React.MouseEvent) => {
     setOpen(false);
   };
@@ -44,6 +49,7 @@ export default function CategoriesContent() {
         payload: {
           hash: uuid(),
           title,
+          slug,
         },
       });
       setOpen(false);
@@ -57,22 +63,32 @@ export default function CategoriesContent() {
     });
   };
 
-  const updateSlug = (Slug: string) => {
+  const updateSlug = (slug: string) => {
     dispatch({
       type: "UPDATE_SLUG",
-      payload: { Slug },
+      payload: { slug },
     });
   };
 
   const saveCategory = () => {
     const httpClient = new Http();
-    httpClient.post("api/v1/categories", { ...state }).then((response) => {
-      console.log(response);
-    });
+    httpClient
+      .post("api/v1/categories", { ...state })
+      .then((response) => {
+        setShowNotify(true);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
 
   return (
     <Content title="ویرایش / اضافه کردن دسته بندی">
+      <Snackbar open={showNotify} autoHideDuration={3000}>
+        <Alert variant="filled" elevation={6} severity="success">
+          دسته بندی با موفقیت اضافه شد
+        </Alert>
+      </Snackbar>
       <Dialog open={open} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">
           عنوان دسته بندی خاصیت ها
@@ -102,6 +118,7 @@ export default function CategoriesContent() {
       <FormControl fullWidth className={styles.formRow}>
         <TextField
           variant="outlined"
+          name="title"
           id="title"
           label="عنوان - فارسی"
           onBlur={(e: React.FocusEvent<HTMLInputElement>) =>
@@ -113,6 +130,7 @@ export default function CategoriesContent() {
       <FormControl fullWidth className={styles.formRow}>
         <TextField
           variant="outlined"
+          name="slug"
           id="slug"
           label="اسلاگ - انگلیسی"
           onBlur={(e: React.FocusEvent<HTMLInputElement>) =>

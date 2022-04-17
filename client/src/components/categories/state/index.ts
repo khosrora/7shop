@@ -63,7 +63,13 @@ export const reducer = (state: CategoriesState, action: Action): CategoriesState
       newState = { ...state, title: action.payload.title }
       break
     case "UPDATE_SLUG":
-      newState = { ...state, title: action.payload.slug }
+      newState = { ...state, slug: action.payload.slug }
+      break
+    case "DELETE_ATTRIBUTE_GROUP":
+      newState = {
+        ...state,
+        groups: state.groups.filter(group => group.hash !== action.payload.hash)
+      }
       break
     default:
       throw new Error(`${action.type} is not defined in this state!`)

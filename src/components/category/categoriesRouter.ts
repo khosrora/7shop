@@ -1,10 +1,11 @@
 import { Router } from "express";
 import Controller from "./categoriesController";
 const categoriesController = new Controller();
-const router: Router = Router();
+const categoriesRouter: Router = Router();
 
-router.post("/", categoriesController.store);
+categoriesRouter.post("/", categoriesController.createCategory);
+categoriesRouter.get("/", categoriesController.getCategories);
 
 
 
-export default router;
+export default categoriesRouter;

@@ -12,8 +12,12 @@ export default class Http {
         this.instance = axios.create();
     }
 
-    public post( endPoint : string , params: Object): Promise<AxiosResponse> {
+    public post(endPoint: string, params: Object): Promise<AxiosResponse> {
         return this.instance.post(`${this.baseURL}/${endPoint}`, params)
+    }
+
+    public get(endPoint: string): Promise<AxiosResponse> {
+        return this.instance.get(`${this.baseURL}/${endPoint}`)
     }
 
 }
